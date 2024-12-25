@@ -40,3 +40,31 @@
 .font-text {
     font-family: 'Lato', sans-serif;
 }
+.bannerbg
+{
+    background-image: url('/public/bannerbg.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  
+    
+    position: relative;
+}
+.bannerbg {
+    background-image: url('/public/bannerbg.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    position: relative;
+}
+
+.bannerbg::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.6); /* Adjust opacity as needed */
+    z-index: 0; /* Places the overlay behind the content */
+}
