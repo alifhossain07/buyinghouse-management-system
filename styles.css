@@ -1,0 +1,42 @@
+
+.black-colour{
+    color: #020202ff; 
+}
+.dark-green{
+    color: #0d2818ff; 
+}
+.pakistan-green{
+    color: #04471cff;
+} 
+.sea-green{
+    color:  #058c42ff;
+} 
+
+.light-green{
+    color: #16db65ff; 
+ }
+ 
+.black-colourbg{
+    background-color: #020202ff; 
+}
+.dark-greenbg{
+   background-color: #0d2818ff; 
+}
+.pakistan-greenbg{
+    background-color: #04471cff;
+} 
+.sea-greenbg{
+ background-color:#058c42ff;
+} 
+
+.light-greenbg{
+    background-color: #16db65ff; 
+ }
+ .font-title {
+    font-family: 'Playfair Display', serif;
+}
+
+/* For body text */
+.font-text {
+    font-family: 'Lato', sans-serif;
+}
