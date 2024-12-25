@@ -3,6 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" href="/public/logo.png" type="image/png" />
 
     <!-- Tailwind CSS (via CDN) -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -13,15 +14,19 @@
       rel="stylesheet"
     />
 
-    <title>Document</title>
+    <title>Friends Fashion LTD</title>
   </head>
   <body>
     <!-- Navbar -->
-    <div id="navbar"></div>
-    <div id="hero"></div>
+    <div
+      class="fixed top-0 left-0 w-full z-50 bg-white shadow-md"
+      id="navbar"
+    ></div>
+    <div class="mt-16" id="hero"></div>
+    <div id="aboutus"></div>
+    <div id="ourservices"></div>
 
     <script>
-      // Dynamically load the navbar from a separate HTML file
       fetch("/components/navbar.html")
         .then((response) => response.text())
         .then((data) => {
@@ -32,6 +37,18 @@
         .then((response) => response.text())
         .then((data) => {
           document.getElementById("hero").innerHTML = data;
+        })
+        .catch((error) => console.error("Error loading hero:", error));
+      fetch("/components/aboutus.html")
+        .then((response) => response.text())
+        .then((data) => {
+          document.getElementById("aboutus").innerHTML = data;
+        })
+        .catch((error) => console.error("Error loading hero:", error));
+        fetch("/components/ourservices.html")
+        .then((response) => response.text())
+        .then((data) => {
+          document.getElementById("ourservices").innerHTML = data;
         })
         .catch((error) => console.error("Error loading hero:", error));
     </script>
