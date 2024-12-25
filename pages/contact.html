@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact Us - Friends Fashion LTD</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Flowbite -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/flowbite@1.6.1/dist/flowbite.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-gray-100">
+    <div
+    class="fixed top-0 left-0 w-full z-50 bg-white shadow-md"
+    id="navbar"
+  ></div>
+
+    <!-- Contact Section -->
+    <section id="contact" class="container mx-auto px-6 mt-20 py-12">
+      <div class="max-w-3xl mx-auto bg-white p-8 rounded-lg shadow-lg">
+        <h2 class="text-3xl font-semibold text-center text-gray-800 mb-6">
+          Contact Us
+        </h2>
+
+        <!-- Contact Information -->
+        <div class="mb-8">
+          <h3 class="text-2xl font-semibold text-gray-800">
+            Friends Fashion LTD
+          </h3>
+          <p class="text-gray-600 mt-2">
+            <strong>Factory Location:</strong> Abdullahpur, Chanpara
+          </p>
+          <p class="text-gray-600 mt-2">
+            <strong>Office:</strong> Sector-6, Road-10, Uttara, Dhaka-1230
+          </p>
+          <p class="text-gray-600 mt-2">
+            <strong>Contact:</strong> 01813376656
+          </p>
+        </div>
+
+        <!-- Contact Form -->
+        <div class="bg-gray-50 p-6 rounded-lg shadow-md">
+          <h3 class="text-xl font-semibold text-gray-800 mb-4">Get In Touch</h3>
+          <form action="#" method="POST">
+            <!-- Name Input -->
+            <div class="mb-4">
+              <label for="name" class="block text-gray-700 font-semibold"
+                >Your Name</label
+              >
+              <input
+                type="text"
+                id="name"
+                name="name"
+                class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-600"
+                placeholder="John Doe"
+                required
+              />
+            </div>
+
+            <!-- Email Input -->
+            <div class="mb-4">
+              <label for="email" class="block text-gray-700 font-semibold"
+                >Your Email</label
+              >
+              <input
+                type="email"
+                id="email"
+                name="email"
+                class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-600"
+                placeholder="john.doe@example.com"
+                required
+              />
+            </div>
+
+            <!-- Message Input -->
+            <div class="mb-4">
+              <label for="message" class="block text-gray-700 font-semibold"
+                >Your Message</label
+              >
+              <textarea
+                id="message"
+                name="message"
+                class="w-full px-4 py-2 mt-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-green-600"
+                rows="5"
+                placeholder="Write your message here..."
+                required
+              ></textarea>
+            </div>
+
+            <!-- Submit Button -->
+            <button
+              type="submit"
+              class="w-full py-3 bg-green-600 text-white font-semibold rounded-md hover:bg-green-700 focus:ring-2 focus:ring-green-600 focus:ring-opacity-50"
+            >
+              Send Message
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+    <div id="footer"></div>
+
+
+    
+
+    <script>
+      fetch("/components/navbar.html")
+        .then((response) => response.text())
+        .then((data) => {
+          document.getElementById("navbar").innerHTML = data;
+        })
+        .catch((error) => console.error("Error loading navbar:", error));
+      fetch("/components/footer.html")
+        .then((response) => response.text())
+        .then((data) => {
+          document.getElementById("footer").innerHTML = data;
+        })
+        .catch((error) => console.error("Error loading hero:", error));
+    </script>
+    <!-- Flowbite JS -->
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@1.6.1/dist/flowbite.min.js"></script>
+  </body>
+</html>
