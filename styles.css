@@ -1,4 +1,6 @@
-
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 .black-colour{
     color: #020202ff; 
 }
