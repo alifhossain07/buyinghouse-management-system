@@ -1,11 +1,152 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-gray-100">
+    <div id="navbar"></div>
+    <div class="min-h-screen w-10/12 mx-auto flex">
+      <!-- Sidebar -->
+      <aside class="w-64 mt-6 bg-white shadow-md">
+        <div class="p-4 border-b">
+          <h1 class="text-xl font-semibold">Admin Dashboard</h1>
+        </div>
+        <nav class="mt-4">
+          <ul>
+            <li>
+              <a href="/pages/admindashboard.html" class="block py-2 px-4 hover:bg-gray-200">Dashboard</a>
+            </li>
+            <li>
+              <a href="/pages/products.html" class="block py-2 px-4 hover:bg-gray-200">Products</a>
+            </li>
+            <li>
+              <a href="/pages/orders.html" class="block py-2 px-4 hover:bg-gray-200">Orders</a>
+            </li>
+            <li>
+              <a href="#" class="block py-2 px-4 hover:bg-gray-200">Users</a>
+            </li>
+          </ul>
+        </nav>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="flex-1 p-6">
+        <!-- Users Section -->
+        <div class="bg-white p-6 rounded-lg shadow-md">
+          <h3 class="text-2xl font-semibold mb-4">User Management</h3>
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-gray-100">
+                <th class="border-b py-2 px-4">User ID</th>
+                <th class="border-b py-2 px-4">Name</th>
+                <th class="border-b py-2 px-4">Email</th>
+                <th class="border-b py-2 px-4">Role</th>
+                <th class="border-b py-2 px-4">Registration Date</th>
+                <th class="border-b py-2 px-4">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="user-table-body">
+              <!-- User rows will be injected here by JavaScript -->
+            </tbody>
+          </table>
+        </div>
+      </main>
+    </div>
+    <div id="footer"></div>
+    <script>
+      fetch("/components/navbar.html")
+        .then((response) => response.text())
+        .then((data) => {
+          document.getElementById("navbar").innerHTML = data;
+        })
+        .catch((error) => console.error("Error loading navbar:", error));
+
+      fetch("/components/footer.html")
+        .then((response) => response.text())
+        .then((data) => {
+          document.getElementById("footer").innerHTML = data;
+        })
+        .catch((error) => console.error("Error loading footer:", error));
+
+      // Sample User Data for the Admin Users Page
+      const users = [
+        {
+          userId: "USER123",
+          name: "John Doe",
+          email: "john.doe@example.com",
+          role: "Admin",
+          registrationDate: "2024-01-15",
+        },
+        {
+          userId: "USER124",
+          name: "Jane Smith",
+          email: "jane.smith@example.com",
+          role: "User",
+          registrationDate: "2024-02-10",
+        },
+        {
+          userId: "USER125",
+          name: "Michael Brown",
+          email: "michael.brown@example.com",
+          role: "User",
+          registrationDate: "2024-03-05",
+        },
+        {
+          userId: "USER126",
+          name: "Emily White",
+          email: "emily.white@example.com",
+          role: "User",
+          registrationDate: "2024-04-20",
+        },
+        {
+          userId: "USER127",
+          name: "Robert Johnson",
+          email: "robert.johnson@example.com",
+          role: "Admin",
+          registrationDate: "2024-05-13",
+        },
+      ];
+
+      // Function to render users in the table
+      function renderUsers() {
+        const userTableBody = document.getElementById("user-table-body");
+        userTableBody.innerHTML = ""; // Clear any existing rows
+
+        // Iterate over users and create table rows
+        users.forEach((user) => {
+          const row = `
+            <tr>
+              <td class="border-b py-2 px-4">${user.userId}</td>
+              <td class="border-b py-2 px-4">${user.name}</td>
+              <td class="border-b py-2 px-4">${user.email}</td>
+              <td class="border-b py-2 px-4">${user.role}</td>
+              <td class="border-b py-2 px-4">${user.registrationDate}</td>
+              <td class="border-b py-2 px-4">
+                <button class="bg-blue-500 text-white py-1 px-4 rounded hover:bg-blue-600">
+                  View
+                </button>
+                <button class="bg-yellow-500 text-white py-1 px-4 rounded hover:bg-yellow-600 ml-2">
+                  Update
+                </button>
+                <button class="bg-red-500 text-white py-1 px-4 rounded hover:bg-red-600 ml-2">
+                  Delete
+                </button>
+              </td>
+            </tr>
+          `;
+          userTableBody.innerHTML += row;
+        });
+      }
+
+      // Call the renderUsers function to populate the table
+      renderUsers();
+    </script>
+  </body>
 </html>

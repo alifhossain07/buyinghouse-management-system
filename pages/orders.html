@@ -1,36 +1,155 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <div class="container mx-auto p-6">
-        <h1 class="text-2xl font-title mb-4">Orders</h1>
-        <table class="table w-full">
-          <thead>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-gray-100 ">
+    <div id="navbar"></div>
+    <div class="min-h-screen w-10/12 mx-auto flex">
+      <!-- Sidebar -->
+      <aside class="w-64 mt-6 bg-white shadow-md">
+        <div class="p-4 border-b">
+          <h1 class="text-xl font-semibold">Admin Dashboard</h1>
+        </div>
+        <nav class="mt-4">
+          <ul>
+            <li>
+              <a href="/pages/admindashboard.html" class="block py-2 px-4 hover:bg-gray-200">Dashboard</a>
+            </li>
+            <li>
+              <a href="/pages/products.html" class="block py-2 px-4 hover:bg-gray-200">Products</a>
+            </li>
+            <li>
+              <a href="/pages/orders.html" class="block py-2 px-4 hover:bg-gray-200">Orders</a>
+            </li>
+            <li>
+              <a href="/pages/users.html" class="block py-2 px-4 hover:bg-gray-200">Users</a>
+            </li>
+          </ul>
+        </nav>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="flex-1 p-6">
+        <!-- Orders Section -->
+        <div class="bg-white p-6 rounded-lg shadow-md">
+          <h3 class="text-2xl font-semibold mb-4">Order Management</h3>
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-gray-100">
+                <th class="border-b py-2 px-4">Order ID</th>
+                <th class="border-b py-2 px-4">Customer Name</th>
+                <th class="border-b py-2 px-4">Order Date</th>
+                <th class="border-b py-2 px-4">Total Amount</th>
+                <th class="border-b py-2 px-4">Status</th>
+                <th class="border-b py-2 px-4">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="order-table-body">
+              <!-- Order rows will be injected here by JavaScript -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Other sections for Products, Users, etc. -->
+
+      </main>
+    </div>
+    <div id="footer"></div>
+    <script>
+      fetch("/components/navbar.html")
+        .then((response) => response.text())
+        .then((data) => {
+          document.getElementById("navbar").innerHTML = data;
+        })
+        .catch((error) => console.error("Error loading navbar:", error));
+
+      fetch("/components/footer.html")
+        .then((response) => response.text())
+        .then((data) => {
+          document.getElementById("footer").innerHTML = data;
+        })
+        .catch((error) => console.error("Error loading footer:", error));
+
+      // Sample Order Data for the Admin Orders Page
+      const orders = [
+        {
+          orderId: "ORD123",
+          customerName: "John Doe",
+          orderDate: "2024-12-24",
+          totalAmount: 120.50,
+          status: "Pending",
+        },
+        {
+          orderId: "ORD124",
+          customerName: "Jane Smith",
+          orderDate: "2024-12-23",
+          totalAmount: 75.99,
+          status: "Completed",
+        },
+        {
+          orderId: "ORD125",
+          customerName: "Michael Brown",
+          orderDate: "2024-12-22",
+          totalAmount: 50.00,
+          status: "Shipped",
+        },
+        {
+          orderId: "ORD126",
+          customerName: "Emily White",
+          orderDate: "2024-12-21",
+          totalAmount: 200.75,
+          status: "Pending",
+        },
+        {
+          orderId: "ORD127",
+          customerName: "Robert Johnson",
+          orderDate: "2024-12-20",
+          totalAmount: 135.60,
+          status: "Completed",
+        },
+      ];
+
+      // Function to render orders in the table
+      function renderOrders() {
+        const orderTableBody = document.getElementById("order-table-body");
+        orderTableBody.innerHTML = ""; // Clear any existing rows
+
+        // Iterate over orders and create table rows
+        orders.forEach((order) => {
+          const row = `
             <tr>
-              <th>Order ID</th>
-              <th>User</th>
-              <th>Product</th>
-              <th>Status</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>101</td>
-              <td>John Doe</td>
-              <td>Shirt</td>
-              <td>Processing</td>
-              <td>
-                <button class="btn btn-sm btn-primary">Update</button>
+              <td class="border-b py-2 px-4">${order.orderId}</td>
+              <td class="border-b py-2 px-4">${order.customerName}</td>
+              <td class="border-b py-2 px-4">${order.orderDate}</td>
+              <td class="border-b py-2 px-4">$${order.totalAmount.toFixed(2)}</td>
+              <td class="border-b py-2 px-4">${order.status}</td>
+              <td class="border-b py-2 px-4">
+                <button class="bg-blue-500 text-white py-1 px-4 rounded hover:bg-blue-600">
+                  View
+                </button>
+                <button class="bg-yellow-500 text-white py-1 px-4 rounded hover:bg-yellow-600 ml-2">
+                  Update
+                </button>
+                <button class="bg-red-500 text-white py-1 px-4 rounded hover:bg-red-600 ml-2">
+                  Delete
+                </button>
               </td>
             </tr>
-          </tbody>
-        </table>
-      </div>
-      
-</body>
+          `;
+          orderTableBody.innerHTML += row;
+        });
+      }
+
+      // Call the renderOrders function to populate the table
+      renderOrders();
+    </script>
+  </body>
 </html>

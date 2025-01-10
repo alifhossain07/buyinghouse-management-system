@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign In</title>
+    <script src="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"></script>
+  </head>
+  <body class="bg-gray-100">
+
+    <!-- Header -->
+    <div class="mb-20" id="navbar"></div>
+
+    <!-- Main Content -->
+    <div class="flex justify-center items-center ">
+      <!-- Sign In Form Container with large top and bottom margin -->
+      <div class="bg-white p-8 rounded-lg shadow-lg w-96 my-32">
+        <h2 class="text-2xl font-semibold text-center mb-6">Sign In</h2>
+
+        <!-- Form -->
+        <form id="signin-form">
+          <div class="mb-4">
+            <label for="email" class="block text-gray-700 text-sm font-medium">Email</label>
+            <input
+              type="email"
+              id="email"
+              name="email"
+              placeholder="Enter your email"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            />
+            <p id="email-error" class="text-red-500 text-xs hidden">Please enter a valid email address.</p>
+          </div>
+
+          <div class="mb-6">
+            <label for="password" class="block text-gray-700 text-sm font-medium">Password</label>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Enter your password"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            />
+            <p id="password-error" class="text-red-500 text-xs hidden">Password cannot be empty.</p>
+          </div>
+
+          <button
+            type="submit"
+            class="w-full py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600"
+          >
+            Sign In
+          </button>
+        </form>
+
+        <!-- Sign Up Link -->
+        <div class="mt-4 text-center">
+          <p class="text-sm text-gray-600">
+            Don't have an account? <a href="/signup.html" class="text-blue-500 hover:underline">Sign Up</a>
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <div id="footer"></div>
+
+    <script>
+      // Load navbar and footer
+      fetch("/components/navbar.html")
+        .then((response) => response.text())
+        .then((data) => {
+          document.getElementById("navbar").innerHTML = data;
+        })
+        .catch((error) => console.error("Error loading navbar:", error));
+
+      fetch("/components/footer.html")
+        .then((response) => response.text())
+        .then((data) => {
+          document.getElementById("footer").innerHTML = data;
+        })
+        .catch((error) => console.error("Error loading footer:", error));
+
+      // Form submission handler
+      document.getElementById("signin-form").addEventListener("submit", function (e) {
+        e.preventDefault(); // Prevent page refresh on form submission
+
+        // Get input values
+        const email = document.getElementById("email").value;
+        const password = document.getElementById("password").value;
+
+        // Validation
+        let isValid = true;
+
+        // Email validation
+        const emailError = document.getElementById("email-error");
+        if (!email || !/\S+@\S+\.\S+/.test(email)) {
+          emailError.classList.remove("hidden");
+          isValid = false;
+        } else {
+          emailError.classList.add("hidden");
+        }
+
+        // Password validation
+        const passwordError = document.getElementById("password-error");
+        if (!password) {
+          passwordError.classList.remove("hidden");
+          isValid = false;
+        } else {
+          passwordError.classList.add("hidden");
+        }
+
+        if (isValid) {
+          // Submit form or handle successful validation
+          alert("Form submitted successfully!");
+          // Here you can add your form submission logic (e.g., API call for sign-in)
+        }
+      });
+    </script>
+  </body>
+</html>

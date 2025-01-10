@@ -1,11 +1,167 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Admin Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link
+      href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"
+      rel="stylesheet"
+    />
+  </head>
+  <body class="bg-gray-100 ">
+    <div id="navbar"></div>
+    <div class="min-h-screen w-10/12 mx-auto flex">
+      <!-- Sidebar -->
+      <aside class="w-64 mt-6 bg-white shadow-md">
+        <div class="p-4 border-b">
+          <h1 class="text-xl font-semibold">Admin Dashboard</h1>
+        </div>
+        <nav class="mt-4">
+          <ul>
+            <li>
+              <a href="/pages/admindashboard.html" class="block py-2 px-4 hover:bg-gray-200"
+                >Dashboard</a
+              >
+            </li>
+            <li>
+              <a href="/pages/products.html" class="block py-2 px-4 hover:bg-gray-200">Products</a>
+            </li>
+            <li>
+              <a href="/pages/orders.html" class="block py-2 px-4 hover:bg-gray-200">Orders</a>
+            </li>
+            <li>
+              <a href="/pages/users.html" class="block py-2 px-4 hover:bg-gray-200">Users</a>
+            </li>
+          </ul>
+        </nav>
+      </aside>
+
+      <!-- Main Content -->
+      <main class="flex-1 p-6">
+        <!-- Products Section -->
+        <div class="bg-white p-6 rounded-lg shadow-md">
+          <h3 class="text-2xl font-semibold mb-4">Product Management</h3>
+          <table class="w-full text-left border-collapse">
+            <thead>
+              <tr class="bg-gray-100">
+                <th class="border-b py-2 px-4">Product Name</th>
+                <th class="border-b py-2 px-4">Category</th>
+                <th class="border-b py-2 px-4">Price</th>
+                <th class="border-b py-2 px-4">Discount</th>
+                <th class="border-b py-2 px-4">Rating</th>
+                <th class="border-b py-2 px-4">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="product-table-body">
+              <!-- Product rows will be injected here by JavaScript -->
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Other sections for Orders, Users, etc. (you can add more content here) -->
+
+      </main>
+    </div>
+    <div id="footer"></div>
+    <script>
+      fetch("/components/navbar.html")
+        .then((response) => response.text())
+        .then((data) => {
+          document.getElementById("navbar").innerHTML = data;
+        })
+        .catch((error) => console.error("Error loading navbar:", error));
+
+      fetch("/components/footer.html")
+        .then((response) => response.text())
+        .then((data) => {
+          document.getElementById("footer").innerHTML = data;
+        })
+        .catch((error) => console.error("Error loading hero:", error));
+
+      // Sample Product Data for the Admin Products Page
+      const products = [
+        {
+          productId: 1,
+          productName: "Men's Casual Blazer",
+          category: "Men",
+          price: 75.99,
+          discount: "10%",
+          rating: 4.5,
+        },
+        {
+          productId: 2,
+          productName: "Men's Slim Fit Jeans",
+          category: "Men",
+          price: 45.99,
+          discount: "15%",
+          rating: 4.7,
+        },
+        {
+          productId: 3,
+          productName: "Men's Formal Shirt",
+          category: "Men",
+          price: 39.99,
+          discount: "20%",
+          rating: 4.6,
+        },
+        {
+          productId: 4,
+          productName: "Women's Evening Gown",
+          category: "Women",
+          price: 120.99,
+          discount: "5%",
+          rating: 4.8,
+        },
+        {
+          productId: 5,
+          productName: "Women's Casual Dress",
+          category: "Women",
+          price: 55.99,
+          discount: "10%",
+          rating: 4.3,
+        },
+        {
+          productId: 6,
+          productName: "Women's High Jeans",
+          category: "Women",
+          price: 49.99,
+          discount: "12%",
+          rating: 4.6,
+        },
+      ];
+
+      // Function to render products in the table
+      function renderProducts() {
+        const productTableBody = document.getElementById("product-table-body");
+        productTableBody.innerHTML = ""; // Clear any existing rows
+
+        // Iterate over products and create table rows
+        products.forEach((product) => {
+          const row = `
+            <tr>
+              <td class="border-b py-2 px-4">${product.productName}</td>
+              <td class="border-b py-2 px-4">${product.category}</td>
+              <td class="border-b py-2 px-4">$${product.price.toFixed(2)}</td>
+              <td class="border-b py-2 px-4">${product.discount}</td>
+              <td class="border-b py-2 px-4">${product.rating}</td>
+              <td class="border-b py-2 px-4">
+                <button class="bg-blue-500 text-white py-1 px-4 rounded hover:bg-blue-600">
+                  Edit
+                </button>
+                <button class="bg-red-500 text-white py-1 px-4 rounded hover:bg-red-600 ml-2">
+                  Delete
+                </button>
+              </td>
+            </tr>
+          `;
+          productTableBody.innerHTML += row;
+        });
+      }
+
+      // Call the renderProducts function to populate the table
+      renderProducts();
+    </script>
+  </body>
 </html>
