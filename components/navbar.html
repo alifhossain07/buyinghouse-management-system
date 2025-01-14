@@ -3,32 +3,29 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+    <title>Friends Fashion LTD</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link
       href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="styles.css" />
-    <title>Document</title>
   </head>
   <body>
+    <!-- Navbar -->
     <nav class="bg-green-400 border-gray-200 shadow-2xl">
       <div class="w-11/12 mx-auto flex items-center justify-between p-4">
         <!-- Logo Part -->
         <div>
-          <div
-            class="flex items-center space-x-3  text-white font-title tracking-wider md:text-2xl font-extrabold"
-          >
-            <img class="md:w-14 w-10" src="/public/logo.png" alt="" />
+          <div class="flex items-center space-x-3 text-white font-title tracking-wider md:text-2xl font-extrabold">
+            <img class="md:w-14 w-10" src="/public/logo.png" alt="Logo" />
             <h1 class="w-36 md:w-full text-white">Friends Fashion LTD</h1>
           </div>
         </div>
         <!-- Navigations Part -->
         <div class="md:mr-40">
           <div
-            class="items-center font-title font-extrabold uppercase justify-between hidden md:flex md:w-auto text-white md:order-0"
             id="navbar-user"
+            class="items-center font-title font-extrabold uppercase justify-between hidden md:flex md:w-auto text-white md:order-0"
           >
             <ul
               class="flex flex-col text-white p-4 font-extrabold md:p-0 mt-4 border border-gray-100 rounded-lg md:space-x-8 rtl:space-x-reverse md:flex-row md:mt-0 md:border-0"
@@ -38,57 +35,85 @@
                   href="/index.html"
                   class="block py-2 px-3 text-white bg-black rounded md:bg-transparent md:text-blue-700 md:p-0"
                   aria-current="page"
-                  >Home</a
                 >
+                  Home
+                </a>
               </li>
-
               <li>
                 <a
                   href="/pages/shop.html"
                   class="block py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-black md:p-0"
-                  >Shop</a
                 >
+                  Shop
+                </a>
               </li>
               <li>
                 <a
                   href="/pages/contact.html"
                   class="block py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-black md:p-0"
-                  >Contact</a
                 >
+                  Contact
+                </a>
               </li>
-              <li>
+              <!-- Dashboard link, hidden by default -->
+              <li id="dashboard-link">
                 <a
                   href="/pages/admindashboard.html"
                   class="block py-2 px-3 text-white rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-black md:p-0"
-                  >Dashboard</a
                 >
+                  Dashboard
+                </a>
               </li>
             </ul>
           </div>
         </div>
         <!-- Sign In Button -->
         <div class="flex gap-6">
-          
-          <a href="/pages/cart.html" class="bg-white px-4 py-2  rounded hover:bg-green-300 hover:text-black">🛒 </a>
-            <a href="/pages/signin.html" class="bg-white px-4 py-2  rounded hover:bg-green-300 hover:text-black">Sign In</a>
-          
-
-          
+          <a
+            href="/pages/cart.html"
+            class="bg-white px-4 py-2 rounded hover:bg-green-300 hover:text-black"
+          >
+            🛒
+          </a>
+          <a
+            id="signin-button"
+            href="/pages/signin.html"
+            class="bg-white px-4 py-2 rounded hover:bg-green-300 hover:text-black"
+          >
+            Sign In
+          </a>
         </div>
       </div>
-      <!-- Navigation For Mobile -->
-       <div class="flex justify-between w-9/12 mx-auto mt-4 px-4 py-4 md:hidden bg-white">
-        <div><a href="/index.html">Home</a></div>
-        <div><a href="/pages/shop.html">Shop</a></div>
-        <div><a href="/pages/contact.html">Contact</a></div>
-        <div><a href="/pages/admindashboard.html">Dashboard</a></div>
-       </div>
     </nav>
 
-    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+    <!-- JavaScript -->
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // Retrieve the isLoggedIn value from localStorage
+        const isLoggedin = JSON.parse(localStorage.getItem("isLoggedIn"));
+
+        // Debugging: Log retrieved value
+        console.log("isLoggedin value:", isLoggedin);
+
+        // Select dashboard link and sign-in button elements
+        const dashboardLink = document.getElementById("dashboard-link");
+        const signInButton = document.getElementById("signin-button");
+
+        // Ensure elements are found
+        if (!dashboardLink || !signInButton) {
+          console.error("Dashboard or Sign-In button elements not found!");
+          return;
+        }
+
+        // Update visibility based on login state
+        if (isLoggedin) {
+          dashboardLink.style.display = "block"; // Show dashboard link
+          signInButton.style.display = "none"; // Hide sign-in button
+        } else {
+          dashboardLink.style.display = "none"; // Hide dashboard link
+          signInButton.style.display = "block"; // Show sign-in button
+        }
+      });
+    </script>
   </body>
 </html>
-
-<!-- Part 1 -->
-
-<!-- part 2 -->

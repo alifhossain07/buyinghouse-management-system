@@ -134,9 +134,15 @@
         }
 
         if (isValid) {
-          // Submit form or handle successful validation
+          // Create user object and save it in localStorage
+          const user = { name, email, password };
+          localStorage.setItem("user", JSON.stringify(user));
+
+          // Display success message and reset form
           alert("Account created successfully!");
-          // Here you can add your form submission logic (e.g., API call for sign-up)
+          document.getElementById("signup-form").reset();
+          // Redirect to sign-in page
+          window.location.href = "/pages/signin.html";
         }
       });
     </script>

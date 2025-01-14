@@ -12,7 +12,7 @@
     <div class="mb-20" id="navbar"></div>
 
     <!-- Main Content -->
-    <div class="flex justify-center items-center ">
+    <div class="flex justify-center items-center">
       <!-- Sign In Form Container with large top and bottom margin -->
       <div class="bg-white p-8 rounded-lg shadow-lg w-96 my-32">
         <h2 class="text-2xl font-semibold text-center mb-6">Sign In</h2>
@@ -111,9 +111,18 @@
         }
 
         if (isValid) {
-          // Submit form or handle successful validation
-          alert("Form submitted successfully!");
-          // Here you can add your form submission logic (e.g., API call for sign-in)
+          // Retrieve user from localStorage and check credentials
+          const storedUser = JSON.parse(localStorage.getItem("user"));
+
+          if (storedUser && storedUser.email === email && storedUser.password === password) {
+            alert("Sign In successful!");
+            // Store a session or flag indicating the user is logged in (optional)
+            localStorage.setItem("isLoggedIn", "true");
+            // Redirect to dashboard or home page
+            window.location.href = "/pages/admindashboard.html";
+          } else {
+            alert("Invalid credentials!");
+          }
         }
       });
     </script>
