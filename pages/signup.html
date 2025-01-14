@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Sign In</title>
+    <title>Sign Up</title>
     <script src="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css"></script>
   </head>
   <body class="bg-gray-100">
@@ -12,13 +12,26 @@
     <div class="mb-20" id="navbar"></div>
 
     <!-- Main Content -->
-    <div class="flex justify-center items-center ">
-      <!-- Sign In Form Container with large top and bottom margin -->
+    <div class="flex justify-center items-center">
+      <!-- Sign Up Form Container with large top and bottom margin -->
       <div class="bg-white p-8 rounded-lg shadow-lg w-96 my-32">
-        <h2 class="text-2xl font-semibold text-center mb-6">Sign In</h2>
+        <h2 class="text-2xl font-semibold text-center mb-6">Sign Up</h2>
 
         <!-- Form -->
-        <form id="signin-form">
+        <form id="signup-form">
+          <div class="mb-4">
+            <label for="name" class="block text-gray-700 text-sm font-medium">Name</label>
+            <input
+              type="text"
+              id="name"
+              name="name"
+              placeholder="Enter your name"
+              class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              required
+            />
+            <p id="name-error" class="text-red-500 text-xs hidden">Name cannot be empty.</p>
+          </div>
+
           <div class="mb-4">
             <label for="email" class="block text-gray-700 text-sm font-medium">Email</label>
             <input
@@ -49,14 +62,14 @@
             type="submit"
             class="w-full py-2 bg-blue-500 text-white font-semibold rounded-lg hover:bg-blue-600"
           >
-            Sign In
+            Sign Up
           </button>
         </form>
 
-        <!-- Sign Up Link -->
+        <!-- Sign In Link -->
         <div class="mt-4 text-center">
           <p class="text-sm text-gray-600">
-            Don't have an account? <a href="/pages/signup.html" class="text-blue-500 hover:underline">Sign Up</a>
+            Already have an account? <a href="/pages/signin.html" class="text-blue-500 hover:underline">Sign In</a>
           </p>
         </div>
       </div>
@@ -82,15 +95,25 @@
         .catch((error) => console.error("Error loading footer:", error));
 
       // Form submission handler
-      document.getElementById("signin-form").addEventListener("submit", function (e) {
+      document.getElementById("signup-form").addEventListener("submit", function (e) {
         e.preventDefault(); // Prevent page refresh on form submission
 
         // Get input values
+        const name = document.getElementById("name").value;
         const email = document.getElementById("email").value;
         const password = document.getElementById("password").value;
 
         // Validation
         let isValid = true;
+
+        // Name validation
+        const nameError = document.getElementById("name-error");
+        if (!name) {
+          nameError.classList.remove("hidden");
+          isValid = false;
+        } else {
+          nameError.classList.add("hidden");
+        }
 
         // Email validation
         const emailError = document.getElementById("email-error");
@@ -112,8 +135,8 @@
 
         if (isValid) {
           // Submit form or handle successful validation
-          alert("Form submitted successfully!");
-          // Here you can add your form submission logic (e.g., API call for sign-in)
+          alert("Account created successfully!");
+          // Here you can add your form submission logic (e.g., API call for sign-up)
         }
       });
     </script>

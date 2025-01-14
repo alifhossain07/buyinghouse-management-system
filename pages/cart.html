@@ -8,7 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body class="bg-gray-100">
-    <!-- Navbar (Optional) -->
+    <!-- Navbar -->
     <div
       class="fixed top-0 left-0 w-full z-50 bg-white shadow-md"
       id="navbar"
@@ -19,77 +19,26 @@
       <h1 class="text-4xl font-bold text-gray-800 text-center mb-12">Your Cart</h1>
 
       <!-- Cart Items -->
-      <div class="bg-white p-6 rounded-lg shadow-md">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <!-- Product 1 -->
-          <div class="flex items-center space-x-4">
-            <img
-              src="https://i.ibb.co/gdyHT7C/blazer.jpg"
-              alt="Men's Casual Blazer"
-              class="w-20 h-20 object-cover rounded-lg"
-            />
-            <div>
-              <h2 class="text-lg font-semibold">Men's Casual Blazer</h2>
-              <p class="text-gray-600">Size: M</p>
-              <p class="text-gray-800 font-bold">$75.99</p>
-            </div>
-          </div>
+      <div id="cart-container" class="bg-white p-6 rounded-lg shadow-md">
+        <!-- Cart items will be dynamically injected here -->
+      </div>
 
-          <!-- Quantity and Controls -->
-          <div class="flex items-center justify-center">
-            <button class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600">-</button>
-            <span class="mx-4">1</span>
-            <button class="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600">+</button>
-          </div>
+      <!-- Empty Cart Message -->
+      <div
+        id="empty-cart-message"
+        class="text-center py-16 text-gray-600 hidden"
+      >
+        <h2 class="text-2xl font-bold">Your cart is empty.</h2>
+        <p class="mt-4">Browse our shop and add some items to your cart!</p>
+      </div>
 
-          <!-- Remove Button -->
-          <div class="flex items-center justify-end">
-            <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
-              Remove
-            </button>
-          </div>
-        </div>
-
-        <hr class="my-4" />
-
-        <!-- Product 2 -->
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
-          <div class="flex items-center space-x-4">
-            <img
-              src="https://i.ibb.co/rbBK945/men-Jeans1.png"
-              alt="Men's Slim Fit Jeans"
-              class="w-20 h-20 object-cover rounded-lg"
-            />
-            <div>
-              <h2 class="text-lg font-semibold">Men's Slim Fit Jeans</h2>
-              <p class="text-gray-600">Size: L</p>
-              <p class="text-gray-800 font-bold">$45.99</p>
-            </div>
-          </div>
-
-          <div class="flex items-center justify-center">
-            <button class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600">-</button>
-            <span class="mx-4">2</span>
-            <button class="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600">+</button>
-          </div>
-
-          <div class="flex items-center justify-end">
-            <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600">
-              Remove
-            </button>
-          </div>
-        </div>
-
-        <hr class="my-4" />
-
-        <!-- Total Section -->
-        <div class="text-right">
-          <p class="text-lg text-gray-800">Subtotal: <span class="font-bold">$167.97</span></p>
-          <p class="text-gray-600 text-sm">Shipping and taxes calculated at checkout.</p>
-          <button class="mt-4 px-6 py-2 bg-green-600 text-white font-semibold rounded hover:bg-green-700">
-            Proceed to Checkout
-          </button>
-        </div>
+      <!-- Checkout Message -->
+      <div
+        id="checkout-message"
+        class="text-center py-16 text-gray-600 hidden"
+      >
+        <h2 class="text-2xl font-bold">Congrats! You bought these items:</h2>
+        <div id="purchased-items" class="mt-6 text-left text-gray-700"></div>
       </div>
     </div>
 
@@ -111,6 +60,120 @@
           document.getElementById("footer").innerHTML = data;
         })
         .catch((error) => console.error("Error loading footer:", error));
+
+      // Fetch cart data from localStorage
+      function loadCart() {
+        const cart = JSON.parse(localStorage.getItem("cart")) || [];
+        const cartContainer = document.getElementById("cart-container");
+        const emptyCartMessage = document.getElementById("empty-cart-message");
+
+        if (cart.length === 0) {
+          cartContainer.innerHTML = "";
+          emptyCartMessage.classList.remove("hidden");
+          return;
+        }
+
+        emptyCartMessage.classList.add("hidden");
+        cartContainer.innerHTML = cart
+          .map(
+            (item, index) => `
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+            <!-- Product Info -->
+            <div class="flex items-center space-x-4">
+              <img src="${item.image}" alt="${item.productName}" class="w-20 h-20 object-cover rounded-lg" />
+              <div>
+                <h2 class="text-lg font-semibold">${item.productName}</h2>
+                <p class="text-gray-600">Size: ${item.selectedSize || "N/A"}</p>
+                <p class="text-gray-800 font-bold">$${item.latestPrice.toFixed(
+                  2
+                )}</p>
+              </div>
+            </div>
+
+            <!-- Quantity Controls -->
+            <div class="flex items-center justify-center">
+              <button class="px-3 py-1 bg-red-500 text-white rounded hover:bg-red-600" onclick="updateQuantity(${index}, -1)">-</button>
+              <span class="mx-4">${item.quantity}</span>
+              <button class="px-3 py-1 bg-green-500 text-white rounded hover:bg-green-600" onclick="updateQuantity(${index}, 1)">+</button>
+            </div>
+
+            <!-- Remove Button -->
+            <div class="flex items-center justify-end">
+              <button class="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600" onclick="removeItem(${index})">Remove</button>
+            </div>
+          </div>
+          <hr class="my-4" />
+        `
+          )
+          .join("");
+
+        // Display subtotal
+        const subtotal = cart.reduce(
+          (sum, item) => sum + item.latestPrice * item.quantity,
+          0
+        );
+        cartContainer.innerHTML += `
+          <div class="text-right">
+            <p class="text-lg text-gray-800">Subtotal: <span class="font-bold">$${subtotal.toFixed(
+              2
+            )}</span></p>
+            <p class="text-gray-600 text-sm">Shipping and taxes calculated at checkout.</p>
+            <button class="mt-4 px-6 py-2 bg-green-600 text-white font-semibold rounded hover:bg-green-700" onclick="proceedToCheckout()">
+              Proceed to Checkout
+            </button>
+          </div>
+        `;
+      }
+
+      // Update quantity
+      function updateQuantity(index, delta) {
+        const cart = JSON.parse(localStorage.getItem("cart")) || [];
+        if (!cart[index]) return;
+
+        cart[index].quantity += delta;
+        if (cart[index].quantity <= 0) cart.splice(index, 1);
+
+        localStorage.setItem("cart", JSON.stringify(cart));
+        loadCart();
+      }
+
+      // Remove item
+      function removeItem(index) {
+        const cart = JSON.parse(localStorage.getItem("cart")) || [];
+        cart.splice(index, 1);
+        localStorage.setItem("cart", JSON.stringify(cart));
+        loadCart();
+      }
+
+      // Proceed to checkout
+      function proceedToCheckout() {
+        const cart = JSON.parse(localStorage.getItem("cart")) || [];
+        const checkoutMessage = document.getElementById("checkout-message");
+        const purchasedItemsContainer = document.getElementById("purchased-items");
+
+        // Show checkout message
+        checkoutMessage.classList.remove("hidden");
+
+        // Display purchased items
+        if (cart.length > 0) {
+          const purchasedItemsHTML = cart
+            .map(
+              (item) => `
+            <div class="flex justify-between mb-4">
+              <span>${item.productName} (x${item.quantity})</span>
+              <span>$${(item.latestPrice * item.quantity).toFixed(2)}</span>
+            </div>`
+            )
+            .join("");
+          purchasedItemsContainer.innerHTML = purchasedItemsHTML;
+        }
+
+        // Clear the cart after checkout
+        localStorage.removeItem("cart");
+      }
+
+      // Initialize cart
+      loadCart();
     </script>
   </body>
 </html>
